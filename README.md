@@ -9,13 +9,13 @@
 <div>
   <button class="btn" data-clipboard-target="#code"></button>
   <pre><code id="code" class="language-python">
-  ./ddns domain            #ipv6 ddns
+  ./ddns.sh domain            #ipv6 ddns
   </code></pre>
 </div>
 <div>
   <button class="btn" data-clipboard-target="#code"></button>
   <pre><code id="code" class="language-python">
-  ./ddns domain A         #ipv4 ddns
+  ./ddns.sh domain A         #ipv4 ddns
   </code></pre>
 </div>
 ----------------------------------------------------------------------  
