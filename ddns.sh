@@ -11,10 +11,10 @@ else
     record_type=AAAA
 fi
 
-echo "$(date)" >> ddns.log
+echo "$(date)" >> $(pwd)/ddns.log
 
-echo "IP地址  $ip_address" >> ddns.log
-echo "域名  $domain_name" >> ddns.log
+echo "IP地址  $ip_address" >> $(pwd)/ddns.log
+echo "域名  $domain_name" >> $(pwd)/ddns.log
 
 curl_head=(
     "X-Auth-Email: ${CF_Email}"
@@ -33,7 +33,7 @@ if [ "$zone_id" == "null" ] || [ -z "$zone_id" ]; then
     zone_id=$(curl -sS --request GET "https://api.cloudflare.com/client/v4/zones?name=$zone1_domain_name" --header "${curl_head[0]}" --header "${curl_head[1]}" --header "${curl_head[2]}" | jq -r '.result[0].id')
 fi
 
-echo "zoneID  $zone_id" >> ddns.log
+echo "zoneID  $zone_id" >> $(pwd)/ddns.log
 
 # 查找现有记录的ID
 record_id=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records?name=$domain_name" \
@@ -43,11 +43,11 @@ record_id=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$zone_id/
 
 # 检查 record_id 是否有效
 if [ "$record_id" == "null" ]; then
-  echo "没有找到记录ID。" >> ddns.log
+  echo "没有找到记录ID。" >> $(pwd)/ddns.log
   exit 1
 fi
 
-echo "记录ID  $record_id" >> ddns.log
+echo "记录ID  $record_id" >> $(pwd)/ddns.log
 
 # 更新记录
 response=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$record_id" \
@@ -58,8 +58,9 @@ response=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_id/d
 
 # 检查更新是否成功
 if echo "$response" | jq .success | grep -q true; then
-  echo "记录更新成功。" >> ddns.log
+  echo "记录更新成功。" >> $(pwd)/ddns.log
 else
-  echo "记录更新失败。" >> ddns.log
-  echo "错误信息：" $(echo "$response" | jq .errors) >> ddns.log
+  echo "记录更新失败。" >> $(pwd)/ddns.log
+  echo "错误信息：" $(echo "$response" | jq .errors) >> $(pwd)/ddns.log
 fi
+
