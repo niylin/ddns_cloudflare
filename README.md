@@ -5,7 +5,7 @@
 ####  请先安装 curl 和 jq
 ####  修改脚本中CF_Key和CF_Email的值为cloud flare全局密钥和邮箱
 -------------------------------------------
-
+默认解析ipv6,  如需解析ipv4,附加参数 A 即可.
 <div>
   <button class="btn" data-clipboard-target="#code"></button>
   <pre><code id="code" class="language-python">
